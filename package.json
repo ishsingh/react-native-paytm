@@ -1,6 +1,6 @@
 {
   "name": "@philly25/react-native-paytm",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Unofficial React Native wrapper for PayTM",
   "main": "index.js",
   "repository": {
