@@ -31,7 +31,7 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation('com.paytm:pgplussdk:1.4.0') {
+    implementation('com.paytm:pgplussdk:1.4.5') {
         transitive = true
     }
 }
