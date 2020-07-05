@@ -70,6 +70,7 @@ RCT_EXPORT_METHOD(startPayment: (NSDictionary *)details)
 //    [rootVC.navigationController pushViewController:txnController animated:YES];
 //    NSLog(@"rootVC.navigationController - %@", rootVC.navigationController);
     [((UINavigationController*)rootVC) pushViewController:txnController animated:YES];
+//    ((UINavigationController*)rootVC).navigationBarHidden = false;
     
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [rootVC presentViewController:txnController animated:YES completion:nil];
@@ -81,27 +82,40 @@ RCT_EXPORT_METHOD(startPayment: (NSDictionary *)details)
     return @[@"PayTMResponse"];
 }
 
+- (void)setNavigationBarHidden:(BOOL)flag {
+    ((UINavigationController*)rootVC).navigationBarHidden = flag;
+}
+
 //this function triggers when transaction gets finished
 -(void)didFinishedResponse:(PGTransactionViewController *)controller response:(NSString *)responseString {
     [self sendEventWithName:@"PayTMResponse" body:@{@"status":@"Success", @"response":responseString}];
-    [controller dismissViewControllerAnimated:YES completion:nil];
+//    [controller dismissViewControllerAnimated:YES completion:nil];
+//    [self setNavigationBarHidden:true];
+    [controller.navigationController popViewControllerAnimated:YES];
 }
 
 //this function triggers when transaction gets cancelled
 -(void)didCancelTrasaction:(PGTransactionViewController *)controller {
     //    [_statusTimer invalidate];
+//    NSString *msg = [NSString stringWithFormat:@"UnSuccessful"];
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Cancel transaction" message:msg preferredStyle:UIAlertControllerStyleAlert];
+
+//    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        [self sendEventWithName:@"PayTMResponse" body:@{@"status":@"Cancel", @"response":msg}];
+//        [rootVC dismissViewControllerAnimated:YES completion:nil];
+//    }]];
+//    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        [controller dismissViewControllerAnimated:YES completion:nil];
+//    }]];
+
+//    [controller presentViewController:alertController animated:YES completion:nil];
+    
+//    [_statusTimer invalidate];
     NSString *msg = [NSString stringWithFormat:@"UnSuccessful"];
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Cancel transaction" message:msg preferredStyle:UIAlertControllerStyleAlert];
-
-    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self sendEventWithName:@"PayTMResponse" body:@{@"status":@"Cancel", @"response":msg}];
-        [rootVC dismissViewControllerAnimated:YES completion:nil];
-    }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-    }]];
-
-    [controller presentViewController:alertController animated:YES completion:nil];
+    
+    [[[UIAlertView alloc] initWithTitle:@"Transaction Cancel" message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    [self setNavigationBarHidden:true];
+    [controller.navigationController popViewControllerAnimated:YES];
 
     //    [[[UIAlertView alloc] initWithTitle:@"Transaction Cancel" message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     //    [self sendEventWithName:@"PayTMResponse" body:@{@"status":@"Cancel", @"response":msg}];
@@ -110,7 +124,10 @@ RCT_EXPORT_METHOD(startPayment: (NSDictionary *)details)
 
 //Called when a required parameter is missing.
 -(void)errorMisssingParameter:(PGTransactionViewController *)controller error:(NSError *) error {
-    [controller dismissViewControllerAnimated:YES completion:nil];
+//    [controller dismissViewControllerAnimated:YES completion:nil];
+//    [self setNavigationBarHidden:true];
+    [controller.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (dispatch_queue_t)methodQueue
