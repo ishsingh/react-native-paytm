@@ -13,6 +13,7 @@ Put in your package.json dependecies
 ```
   // Create UINavigationController
   UINavigationController *rootController = [[UINavigationController alloc] initWithRootViewController: rootViewController];
+  rootController.navigationBarHidden = true;
   
   rootViewController.view = rootView;
   // Set rootController instead rootViewController
