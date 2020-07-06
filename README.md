@@ -1,3 +1,27 @@
+## This is fork from @philly25/react-native-paytm to resolve UIWebView issue    
+
+### Dependencies
+Put in your package.json dependecies
+```
+"@philly25/react-native-paytm": "git+https://github.com/troublediehard/react-native-paytm#v1.1.0",
+```
+
+### Updated iOS setup
+1. Add [PaymentSDK.framework](https://github.com/troublediehard/react-native-paytm/tree/master/ios/Frameworks) to your Xcode project     
+![Xcode](docs/xcode.png)
+2. In `AppDelegate.m` put following 
+```
+  // Create UINavigationController
+  UINavigationController *rootController = [[UINavigationController alloc] initWithRootViewController: rootViewController];
+  
+  rootViewController.view = rootView;
+  // Set rootController instead rootViewController
+  // self.window.rootViewController = rootViewController;
+  self.window.rootViewController = rootController;
+```
+
+### Next Readme from main repository 
+
 [![Made by](https://img.shields.io/badge/Made_by-opsway-blue.svg)](https://opsway.com)
 [![](https://img.shields.io/npm/v/@philly25/react-native-paytm.svg)](https://www.npmjs.com/package/@philly25/react-native-paytm)
 [![](https://img.shields.io/npm/dm/@philly25/react-native-paytm.svg)](https://www.npmjs.com/package/@philly25/react-native-paytm)
